@@ -36,6 +36,11 @@ public class TituloController {
 		return mv;
 	}
 	
+	@RequestMapping
+	public String pesquisar(){
+		return "PesquisaTitulos";
+	}
+	
 	@ModelAttribute("todosStatusTitulos")
 	public List<StatusTituloEnum> todosStatusTitulo(){
 		return Arrays.asList(StatusTituloEnum.values());
