@@ -1,5 +1,6 @@
 package com.algaworks.cobranca.model;
 
+import java.beans.Transient;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -67,6 +68,12 @@ public class Titulo {
 	public void setStatus(StatusTituloEnum status) {
 		this.status = status;
 	}
+	
+	@Transient
+	public Boolean isPendente(){
+		return StatusTituloEnum.PENDENTE.equals(getStatus());
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
