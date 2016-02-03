@@ -40,7 +40,9 @@
  							th:text="${titulo.status.descricao}"></span>
 	 				</td>
 	 				<td class="text-center">
-	 					Icones
+	 					<a class="btn btn-link btn-xs" th:href="@{/titulos/{codigo}(codigo=${titulo.codigo})}">
+	 						<span class="glyphicon glyphicon-pencil"></span>
+	 					</a>
 	 				</td>
 	 			</tr>
 	 			
