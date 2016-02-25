@@ -8,6 +8,9 @@
 	<title>Pesquisa de títulos</title>
 </head>
 <section layout:fragment="conteudo">
+
+	<div layout:include="Mensagem"/>
+
 	 <div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="clearfix">
@@ -40,8 +43,14 @@
  							th:text="${titulo.status.descricao}"></span>
 	 				</td>
 	 				<td class="text-center">
-	 					<a class="btn btn-link btn-xs" th:href="@{/titulos/{codigo}(codigo=${titulo.codigo})}">
+	 					<a class="btn btn-link btn-xs" th:href="@{/titulos/{codigo}(codigo=${titulo.codigo})}" title="Editar"
+	 						rel="tooltip" data-placement="top">
 	 						<span class="glyphicon glyphicon-pencil"></span>
+	 					</a>
+	 					<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#confirmacaoExclusaoModal"
+	 					    title="Excluir"	rel="tooltip" data-placement="top"
+	 						th:attr="data-codigo=${titulo.codigo},data-descricao=${titulo.descricao}">
+	 						<span class="glyphicon glyphicon-remove"></span>
 	 					</a>
 	 				</td>
 	 			</tr>
@@ -52,6 +61,9 @@
 	 		</tbody>
 	 	</table>
 	 </div>
+	 
+	 <div layout:include="DialogoConfirmacaoExclusao"></div>
+	 
 	</div>
 </section>
 </html>

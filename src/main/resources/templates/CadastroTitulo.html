@@ -9,7 +9,7 @@
  <section layout:fragment="conteudo">
     <form class="form-horizontal" action="/titulos" method="POST" th:object="${titulo}">
     
-     	<div layout:include="Mensagem"/>
+     	<div layout:include="MensagemErro"/>
     
     	<div class="panel panel-default">
     		<div class="panel-heading">
@@ -31,13 +31,15 @@
 				<div class="form-group" th:classappend="${#fields.hasErrors('dataVencimento')} ? has-error">
 					<label for="dataVencimento" class="col-sm-2 control-label">Data de vencimento</label>
 					<div class="col-sm-2">  
-						<input type="text" class="form-control" th:field="*{dataVencimento}" id="dataVencimento" />
+						<input type="text" class="form-control" th:field="*{dataVencimento}" id="dataVencimento" 
+						data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-br"
+						data-date-auto-close="true" data-date-today-highlight="true" data-date-orientation="bottom"/>
 					</div>
 				</div>
 				<div class="form-group" th:classappend="${#fields.hasErrors('valor')} ? has-error">
 					<label for="valor" class="col-sm-2 control-label">Valor</label>
 					<div class="col-sm-2">   
-						<input type="text" class="form-control" th:field="*{valor}" id="valor"/>
+						<input type="text" class="form-control js-currency" th:field="*{valor}" id="valor"/>
 					</div>
 				</div>
 				<div class="form-group">
