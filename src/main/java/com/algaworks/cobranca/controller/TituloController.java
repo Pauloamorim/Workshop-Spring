@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.cobranca.enums.StatusTituloEnum;
 import com.algaworks.cobranca.model.Titulo;
 import com.algaworks.cobranca.repository.Titulos;
+import com.algaworks.cobranca.repository.filter.TituloFilter;
+import com.algaworks.cobranca.service.TituloService;
 
 @Controller
 @RequestMapping(value="/titulos")
@@ -28,6 +32,9 @@ public class TituloController {
 	
 	@Autowired
 	private Titulos titulos;
+	
+	@Autowired
+	private TituloService tituloService;
 	
 
 	@RequestMapping("/novo")
@@ -43,27 +50,27 @@ public class TituloController {
 			return "CadastroTitulo";
 		}
 		try {
-			titulos.save(titulo);
+			tituloService.salvar(titulo);
 			attributes.addFlashAttribute("mensagem","Título salvo com sucesso");
 			return "redirect:/titulos/novo";
-		} catch (DataIntegrityViolationException e) {
-			errors.rejectValue("dataVencimento",null,"Formato de data inválido");
+		} catch (IllegalArgumentException e) {
+			errors.rejectValue("dataVencimento",null,e.getMessage());
 			return CADASTRO_TITULO;
 		}
 	}
 	
 	@RequestMapping(value="{codigo}",method = RequestMethod.DELETE)
 	public String excluir(@PathVariable Long codigo,RedirectAttributes attributes){
-		titulos.delete(codigo);
+		tituloService.excluir(codigo);
 		attributes.addFlashAttribute("mensagem","Título excluído com sucesso.");
 		return "redirect:/titulos";
 	}
 	
 	@RequestMapping
-	public ModelAndView pesquisar(){
+	public ModelAndView pesquisar(@ModelAttribute("filtro") TituloFilter filtro){
 		ModelAndView mv = new ModelAndView("PesquisaTitulos");
-		List<Titulo> todosTitulos =  titulos.findAll();
-		mv.addObject("titulos",todosTitulos);
+		
+		mv.addObject("titulos",tituloService.pesquisarTitulo(filtro));
 		return mv;
 	}
 	
@@ -73,6 +80,11 @@ public class TituloController {
 		ModelAndView mv = new ModelAndView(CADASTRO_TITULO);
 		mv.addObject(titulo);
 		return mv;
+	}
+	
+	@RequestMapping(value="/{codigo}/receber",method= RequestMethod.PUT)
+	public @ResponseBody String receber(@PathVariable Long codigo){
+		return tituloService.receber(codigo);
 	}
 	
 	@ModelAttribute("todosStatusTitulos")

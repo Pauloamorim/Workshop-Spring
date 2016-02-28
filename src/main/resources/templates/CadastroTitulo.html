@@ -7,7 +7,7 @@
 <title>Cadastro de título</title>
 </head>
  <section layout:fragment="conteudo">
-    <form class="form-horizontal" action="/titulos" method="POST" th:object="${titulo}">
+    <form class="form-horizontal" th:action="@{/titulos}" method="POST" th:object="${titulo}">
     
      	<div layout:include="MensagemErro"/>
     
@@ -15,7 +15,7 @@
     		<div class="panel-heading">
     			<div class="clearfix">
 					<h1 class="panel-title aw-titulo-panel">Novo título</h1>
-					<a class="btn btn-link aw-link-panel" href="/titulos">Voltar para Pesquisa</a>
+					<a class="btn btn-link aw-link-panel" th:href="@{/titulos}">Voltar para Pesquisa</a>
 				</div>
 			</div>
     		
@@ -46,7 +46,7 @@
 					<label for="status" class="col-sm-2 control-label">Status</label>
 					<div class="col-sm-2">
 						<select class="form-control" name="status">
-							<option th:each="status : ${todosStatusTitulos}" 
+							<option th:each="status : ${todosStatusTitulos}" th:field="*{status}"
 								th:value="${status}" 
 								th:text="${status.descricao}"/>
                     	</select>

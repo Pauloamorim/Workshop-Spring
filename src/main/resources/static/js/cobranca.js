@@ -21,4 +21,28 @@ $('#confirmacaoExclusaoModal').on('show.bs.modal',function(event){
 $(function(){
 	$('[rel="tooltip"]').tooltip();
 	$('.js-currency').maskMoney({decimal:',',thousands:'.',allowZero:true,});
+	
+	$('.js-atualizar-status').on('click',function(event){
+		event.preventDefault();
+		
+		var botaoReceber = $(event.currentTarget);
+		var url = botaoReceber.attr('href');
+		
+		var response = $.ajax({
+			url:url,type:'PUT'
+		});
+		
+		response.done(function(e){
+			var codigoTitulo = botaoReceber.data('codigo');
+			botaoReceber.hide();
+			$('[data-role='+codigoTitulo+']').html('<span class="label label-success">'+e+'</span>');
+			
+		});
+		
+		response.fail(function(e){
+			alert('Erro ao receber cobrança');
+		});
+		
+	});
 });
+
